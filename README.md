@@ -119,6 +119,6 @@ For training a ProtoNet 3-way 5-shot model on Flowers dataset with resnet18 and 
 <div id='hyperparams' />
 								
 
-`Res` refers to resnet-18.												
+`Res` refers to resnet-18.																			
 
-`CUB`, `cars`, `MIN` refer to the respective datasets.																
+This README file was edited according to our purpose and the original repository deals with more than what was required.
