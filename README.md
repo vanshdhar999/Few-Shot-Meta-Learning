@@ -1,15 +1,6 @@
-# When Does Self-supervision Improve Few-shot Learning? - A Reproducibility Report
+# Few Shot Meta Learning
 
 <img src="https://img.shields.io/badge/PyTorch%20-%23EE4C2C.svg?&style=for-the-badge&logo=PyTorch&logoColor=white" />  <a href="https://wandb.ai/meta-learners/projects" alt="W&B Dashboard">  <img src="https://img.shields.io/badge/WandB-Dashboard-gold.svg" /></a> <a href="https://dagshub.com/arjun2000ashok/FSL-SSL" alt="DAGsHub Dashboard"><img src="https://img.shields.io/badge/DAGsHub-Project-blue.svg" /></a>
-
-
-
-A reproduction of the paper [When Does Self-supervision Improve Few-shot Learning? (ECCV 2020)](https://arxiv.org/abs/1910.03560). We also have some interesting results beyond the paper. The authors' official repository is [here](https://github.com/cvl-umass/fsl_ssl).
-
-
-As part of the [**ML Reproducibility Challenge Spring 2021**](https://paperswithcode.com/rc2020).
-
-**All the hyperparameters** obtained from our sweeps are also reported in section 7 below.
 
 # Table of contents
 
@@ -22,10 +13,6 @@ As part of the [**ML Reproducibility Challenge Spring 2021**](https://paperswith
      3.1. [General Instructions](#general)
 
      3.2. [Examples](#examples)
-4. [Domain selection](#domain)
-5. [Conducting a sweep](#sweep)
-6. [Pretrained models](#pretrained)
-7. [Hyperparameters](#hyperparams)
 
 <div id='installation' />
 
@@ -45,27 +32,9 @@ The datasets, details, download links, location are below:
 
 | Dataset          | Download Link                                              | Extraction Location               |
 | ---------------- | ---------------------------------------------------------- | --------------------------------- |
-| CUB-birds        | https://www.kaggle.com/tarunkr/caltech-birds-2011-dataset  | `filelists/CUB/images`          |
 | VGG flowers      | https://www.kaggle.com/arjun2000ashok/vggflowers/          | `filelists/flowers/images`      |
-| Stanford Cars    | https://www.kaggle.com/hassiahk/stanford-cars-dataset-full | `filelists/cars/images`         |
-| Stanford Dogs    | https://www.kaggle.com/jessicali9530/stanford-dogs-dataset | `filelists/dogs/images`         |
-| FGVC - Aircrafts | https://www.kaggle.com/seryouxblaster764/fgvc-aircraft     | `filelists/aircrafts/images`    |
-| MiniImageNet     | https://www.kaggle.com/arjunashok33/miniimagenet           | `filelists/miniImagenet/images` |
-
-
-If you are using the Aircrafts dataset, you should run `utils/crop_aircrafts.py`. It will be crop the bottom 20 rows of the image which contain the image credits. In the original repository, this is done in the code. To optimize that, this script has been provided.
 
 <br>
-
-For the cross-domain experiments, we list the datasets here for convinience. These links are taken from the [CDFSL benchmark repository](https://github.com/IBM/cdfsl-benchmark).
-
-
-| Dataset     | Download Link                                    | Extraction Location              |
-| ----------- | ------------------------------------------------ | -------------------------------- |
-| ChestX      | https://www.kaggle.com/nih-chest-xrays/data      | `filelists/ChestX/images`      |
-| ISIC        | https://challenge.isic-archive.com - **NOTE:** needs login | `filelists/ISIC/images`        |
-| EuroSAT     | http://madm.dfki.de/files/sentinel/EuroSAT.zip   | `filelists/EuroSAT/images`     |
-| CropDisease | https://www.kaggle.com/saroz014/plant-disease/   | `filelists/CropDisease/images` |
 
 <div id='training' />
 
@@ -80,7 +49,6 @@ For the cross-domain experiments, we list the datasets here for convinience. The
 The `train.py` file is used for training, validation and testing.
 
 It trains the few-shot model for a fixed number of episodes, with periodic evalution on the validation set, followed by testing on the test set.
-
 
 Note that all the results reported are based on training for a fixed number of epochs, and then evaluating using the best model found using the validation set.
 
@@ -143,9 +111,9 @@ usage: train.py [-h] [--dataset DATASET] [--model MODEL] [--method METHOD]
   
 ### Supervised training
 
-For training a ProtoNet 5-way 5-shot model on CUB dataset with resnet18 and image size 224, for 600 epochs (LR=0.01):
+For training a ProtoNet 3-way 5-shot model on Flowers dataset with resnet18 and image size 224, for 600 epochs (LR=0.01):
 
-`python train.py --dataset=CUB --model=resnet18 --method=protonet --train_n_way=5 --test_n_way=5 --n_shot=5 --train_aug --stop_epoch=600 --lr=0.01`.
+`python train.py --dataset=flowers --model=resnet18 --method=protonet --train_n_way=5 --test_n_way=5 --n_shot=5 --train_aug --stop_epoch=600 --lr=0.01`.
 
 For Conv4 architecture and image size 84, use `--image_size=84 --model=Conv4`.
 
